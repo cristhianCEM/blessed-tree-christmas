@@ -22,9 +22,9 @@ def define_starsky(width: int, height: int):
                 stars_in_sky.append([x, y, str_index, waiting, 0])
 
 
-def draw_starsky(terminal):
+def draw_starsky(terminal, reset: bool = False):
     global stars_in_sky
-    if (len(stars_in_sky) == 0):
+    if (reset):
         define_starsky(terminal.width, terminal.height)
     star_index = 0
     for star in stars_in_sky:
