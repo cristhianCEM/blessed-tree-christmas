@@ -5,7 +5,7 @@ import time
 import pyfiglet
 from utils import echo
 from drawers.starsky import draw_starsky
-from drawers.moon import draw_moon
+from drawers.moon import draw_translate_moon
 from drawers.tree import draw_base_star, draw_base_tree
 
 MAP_COLOR = ['aliceblue', 'antiquewhite', 'antiquewhite1', 'antiquewhite2', 'antiquewhite3', 'antiquewhite4', 'aqua', 'aquamarine', 'aquamarine2', 'aquamarine3', 'aquamarine4', 'beige', 'bisque', 'bisque2', 'bisque3', 'bisque4', 'black', 'blanchedalmond', 'blue', 'blue2', 'blue3', 'blue4', 'blueviolet', 'brown', 'brown1', 'brown2', 'brown3', 'brown4', 'burlywood', 'burlywood1', 'burlywood2', 'burlywood3', 'burlywood4', 'cadetblue', 'cadetblue1', 'cadetblue2', 'cadetblue3', 'cadetblue4', 'chartreuse', 'chartreuse2', 'chartreuse3', 'chartreuse4', 'chocolate', 'chocolate1', 'chocolate2', 'chocolate3', 'chocolate4', 'coral', 'coral1', 'coral2', 'coral3', 'coral4', 'cornflowerblue', 'crimson', 'cyan2', 'cyan3', 'cyan4', 'darkgoldenrod', 'darkgoldenrod1', 'darkgoldenrod2', 'darkgoldenrod3', 'darkgoldenrod4', 'darkgreen', 'darkkhaki', 'darkmagenta', 'darkolivegreen', 'darkolivegreen1', 'darkolivegreen2', 'darkolivegreen3', 'darkolivegreen4', 'darkorange', 'darkorange1', 'darkorange2', 'darkorange3', 'darkorange4', 'darkorchid', 'darkorchid1', 'darkorchid2', 'darkorchid3', 'darkorchid4', 'darkred', 'darksalmon', 'darkseagreen', 'darkseagreen1', 'darkseagreen2', 'darkseagreen3', 'darkseagreen4', 'darkslateblue', 'darkturquoise', 'darkviolet', 'deeppink', 'deeppink2', 'deeppink3', 'deeppink4', 'deepskyblue', 'deepskyblue2', 'deepskyblue3', 'deepskyblue4', 'dodgerblue', 'dodgerblue2', 'dodgerblue3', 'dodgerblue4', 'firebrick', 'firebrick1', 'firebrick2', 'firebrick3', 'firebrick4', 'floralwhite', 'forestgreen', 'fuchsia', 'gainsboro', 'ghostwhite', 'gold', 'gold2', 'gold3', 'gold4', 'goldenrod', 'goldenrod1', 'goldenrod2', 'goldenrod3', 'goldenrod4', 'green', 'green2', 'green3', 'green4', 'greenyellow', 'honeydew', 'honeydew2', 'honeydew3', 'honeydew4', 'hotpink', 'hotpink1', 'hotpink2', 'hotpink3', 'hotpink4', 'indianred', 'indianred1', 'indianred2', 'indianred3', 'indianred4', 'indigo', 'ivory', 'ivory2', 'ivory3', 'ivory4', 'khaki', 'khaki1', 'khaki2', 'khaki3', 'khaki4', 'lavender', 'lavenderblush', 'lavenderblush2', 'lavenderblush3', 'lavenderblush4', 'lawngreen', 'lemonchiffon', 'lemonchiffon2', 'lemonchiffon3', 'lemonchiffon4', 'lightblue', 'lightblue1', 'lightblue2', 'lightblue3', 'lightblue4', 'lightcoral', 'lightcyan', 'lightcyan2', 'lightcyan3', 'lightcyan4', 'lightgoldenrod', 'lightgoldenrod1', 'lightgoldenrod2', 'lightgoldenrod3', 'lightgoldenrod4', 'lightgoldenrodyellow', 'lightgreen', 'lightpink', 'lightpink1', 'lightpink2', 'lightpink3', 'lightpink4', 'lightsalmon', 'lightsalmon2',
@@ -18,7 +18,7 @@ def setup(terminal):
     draw_starsky(terminal, True)
     moon_x = math.floor(terminal.width / 10)
     moon_y = math.floor(terminal.height / 9)
-    draw_moon(terminal, moon_x, moon_y)
+    draw_translate_moon(terminal, moon_x, moon_y)
     star_x = math.floor(terminal.width / 2)
     star_y = 1
     draw_base_star(terminal, star_x, star_y)
@@ -26,10 +26,17 @@ def setup(terminal):
     tree_y = 0
     tree_height = terminal.height - 10
     draw_base_tree(terminal, tree_x, tree_y, tree_height)
+    echo(terminal.move_yx(terminal.height - 7, 0))
+    text = pyfiglet.figlet_format("Feliz Navidad!", font=FONT_ASCCI)
+    echo(terminal.red(text))
+    echo(terminal.move_yx(terminal.height, terminal.width - 20))
+    echo(terminal.bright_black('Press Q to quit.'))
 
 def loop(terminal):
     draw_starsky(terminal, False)
-
+    moon_x = math.floor(terminal.width / 10)
+    moon_y = math.floor(terminal.height / 9)
+    draw_translate_moon(terminal, moon_x, moon_y)
 
 def main():
     terminal = blessed.Terminal()
@@ -46,12 +53,7 @@ def main():
             time.sleep(0.1)
     exit()
     inp = None
-    echo(term.move_yx(term.height - 8, 0))
-    text = pyfiglet.figlet_format("Feliz Navidad!", font=FONT_ASCCI)
-    echo(term.red(text))
-    echo(term.move_yx(term.height, 0))
-    echo(term.bright_black('Press Q to quit.'))
-    echo(term.move_yx(0, 0))
+
     with term.hidden_cursor(), term.cbreak(), term.location():
         while inp not in (u'q', u'Q'):
             inp = term.inkey(timeout=1)
