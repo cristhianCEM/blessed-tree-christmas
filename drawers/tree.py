@@ -37,8 +37,10 @@ def draw_tree_trunk(terminal, x, y, height):
 tree_positions = []
 
 
-def draw_base_tree(terminal):
+def draw_base_tree(terminal, reset: bool = False):
     global tree_positions
+    if (reset):
+        tree_positions = []
     tree_x = math.floor(terminal.width / 2)
     tree_y = 0
     tree_height = terminal.height - 10

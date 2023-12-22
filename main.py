@@ -9,8 +9,8 @@ from drawers.moon import draw_translate_moon
 from drawers.tree import draw_base_star, draw_base_tree, draw_fairy_lights
 
 MESSAGE = 'Feliz Navidad!'
-MESSAGE_FONT = 'slscript'
-MESSAGE_HEIGHT = 5
+MESSAGE_FONT = 'contessa'
+MESSAGE_HEIGHT = 3
 MESSAGE_QUIT = 'Press Q to quit.'
 LEN_MESSAGE_QUIT = len(MESSAGE_QUIT)
 
@@ -33,7 +33,7 @@ def setup(terminal):
     star_x = math.floor(terminal.width / 2)
     star_y = 1
     draw_base_star(terminal, star_x, star_y)
-    draw_base_tree(terminal)
+    draw_base_tree(terminal, True)
     draw_message(terminal)
     draw_message_quit(terminal)
 
