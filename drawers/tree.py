@@ -5,7 +5,7 @@ import random
 arr_star = [
 "###~",
 "__/^\__",
-"\  ★  /",
+"\ .★. /",
 "/_< >_\\",
 "##(~)"
 ]
@@ -21,6 +21,13 @@ def draw_base_star(term, x, y):
         echo(term.move_xy(x - 3 + cantidad, y + i))
         echo(term.on_black(term.yellow(string)))
 
+def draw_tree_trunk(term, x, y, height):
+    string = 'MmNmM'
+    base = round(height / 5)
+    for i in range(base):
+        echo(term.move_xy(x - 2, y + 5 + height + i))
+        echo(term.on_black(term.lightsalmon4(string)))
+
 tree_positions = []
 def draw_base_tree(term, x, y, height):
     for i in range(1, height):
@@ -35,9 +42,4 @@ def draw_base_tree(term, x, y, height):
             string += random.choice(MAP_TREE)
         echo(term.on_black(term.forestgreen(string)))
         tree_positions.append([pos_x, pos_y, string])
-    # draw tree trunk
-    string = 'MmNmM'
-    base = round(height / 5)
-    for i in range(base):
-        echo(term.move_xy(x - 2, y + 5 + height + i))
-        echo(term.on_black(term.lightsalmon4(string)))
+    draw_tree_trunk(term, x, y, height)
