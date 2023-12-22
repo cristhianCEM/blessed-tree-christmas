@@ -14,7 +14,7 @@ def define_starsky(width: int, height: int):
     stars_in_sky = []
     range_star_Strings = range(STAR_STRING_LEN)
     for x in range(width):
-        for y in range(height):
+        for y in range(height - 1):
             condition = random.random() < STAR_PROBABILITY
             if (condition):
                 str_index = random.choice(range_star_Strings)

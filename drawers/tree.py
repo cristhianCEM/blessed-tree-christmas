@@ -4,7 +4,7 @@ import random
 import math
 
 arr_star = [
-    "###~",
+    "###,",
     "__/^\__",
     "\ .★. /",
     "/_< >_\\",
