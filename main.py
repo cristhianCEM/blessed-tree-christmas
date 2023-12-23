@@ -30,9 +30,7 @@ def setup(terminal):
     echo(terminal.move_xy(0, 0))
     draw_starsky(terminal, True)
     draw_full_moon(terminal, True)
-    star_x = math.floor(terminal.width / 2)
-    star_y = 1
-    draw_base_star(terminal, star_x, star_y)
+    draw_base_star(terminal, True)
     draw_base_tree(terminal, True)
     draw_message(terminal)
     draw_message_quit(terminal)
