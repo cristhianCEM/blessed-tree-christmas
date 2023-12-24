@@ -59,20 +59,24 @@ def additive_mix_rgba_colors(base: List[int], added: List[int]) -> List[int]:
     return rgb_mix
 
 
-def hsl_mix_rgba_colors(base: List[int], added: List[int]) -> List[int]:
+def hsl_mix_rgba_colors(color1: List[int], color2: List[int]) -> List[int]:
     """
     Mixes two RGB colors using HSL color space.
 
     Args:
-        base (List[int]): The base color in RGBA format.
-        added (List[int]): The color to be added in RGBA format.
+        color1 (List[int]): The color1 in RGBA format.
+        color2 (List[int]): The color2 in RGBA format.
 
     Returns:
         List[int]: The resulting color after the HSL mixing in RGBA format.
     """
-    hsl1 = rgba_to_hsl(*base)
-    hsl2 = rgba_to_hsl(*added)
+    hsl1 = rgba_to_hsl(*color1)
+    hsl2 = rgba_to_hsl(*color2)
+    alpha1 = color1[3] or 1
+    alpha2 = color2[3] or 1
+    alpha_mix = 1 - (1 - alpha1) * (1 - alpha2)
     mixed_hsl = [
         (hsl1[i] + hsl2[i]) / 2 for i in range(3)
-    ] + [1 - (1 - base[3]) * (1 - added[3])]
+    ]
+    mixed_hsl.append(alpha_mix)
     return hsl_to_rgba(*mixed_hsl)
