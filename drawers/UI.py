@@ -1,4 +1,4 @@
-from utils import echo, get_text_formatted, rgb_color
+from utils.console import echo, get_text_formatted, rgb_color
 
 MESSAGE = 'Feliz Navidad!'
 MESSAGE_FONT = 'contessa'

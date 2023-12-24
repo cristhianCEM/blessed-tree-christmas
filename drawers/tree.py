@@ -1,5 +1,5 @@
 
-from utils import echo
+from utils.console import echo
 import random
 import math
 

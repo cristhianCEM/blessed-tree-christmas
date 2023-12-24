@@ -1,4 +1,4 @@
-from utils import echo
+from utils.console import echo
 import math
 
 FULL_MOON = [
