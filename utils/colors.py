@@ -1,5 +1,20 @@
 import colorsys
 from typing import List
+from math import ceil
+
+
+def promedio(a: float, b: float) -> float:
+    """
+    Devuelve el promedio entre dos números.
+    """
+    return (a + b) / 2
+
+
+def combine_alpha(alpha1: float, alpha2: float) -> float:
+    """
+    Devuelve el alpha resultante de la mezcla de dos colores.
+    """
+    return 1 - (1 - alpha1) * (1 - alpha2)
 
 
 def rgba_to_hsl(r: int, g: int, b: int, alpha: float = 1) -> List[float]:
@@ -33,7 +48,7 @@ def hsl_to_rgba(h: float, s: float, l: float, alpha: float = 1) -> List[int]:
         List[int]: The RGBA representation of the color [r, g, b, alpha].
     """
     r, g, b = colorsys.hls_to_rgb(h / 360, l / 100, s / 100)
-    return [int(r * 255), int(g * 255), int(b * 255), alpha]
+    return [ceil(r * 255), ceil(g * 255), ceil(b * 255), alpha]
 
 
 def additive_mix_rgba_colors(base: List[int], added: List[int]) -> List[int]:
@@ -47,7 +62,7 @@ def additive_mix_rgba_colors(base: List[int], added: List[int]) -> List[int]:
     Returns:
         List[int]: The resulting color after the additive mixing in RGBA format.
     """
-    alpha_mix = 1 - (1 - added[3]) * (1 - base[3])
+    alpha_mix = combine_alpha(added[3], base[3])
     if alpha_mix == 0:
         return [0, 0, 0, 0]
     rgb_mix = [
@@ -74,9 +89,11 @@ def hsl_mix_rgba_colors(color1: List[int], color2: List[int]) -> List[int]:
     hsl2 = rgba_to_hsl(*color2)
     alpha1 = color1[3] or 1
     alpha2 = color2[3] or 1
-    alpha_mix = 1 - (1 - alpha1) * (1 - alpha2)
     mixed_hsl = [
-        (hsl1[i] + hsl2[i]) / 2 for i in range(3)
+        promedio(hsl1[i], hsl2[i]) for i in range(3)
     ]
-    mixed_hsl.append(alpha_mix)
+    mixed_hsl.append(combine_alpha(alpha1, alpha2))
+    # Ajusta el matiz si la diferencia es mayor a 180 grados
+    if abs(hsl1[0] - hsl2[0]) > 180:
+        mixed_hsl[0] = (mixed_hsl[0] + 180) % 360
     return hsl_to_rgba(*mixed_hsl)
