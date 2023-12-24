@@ -44,6 +44,28 @@ class ConsoleMap3d(object):
         except IndexError:
             pass
 
+    def merge_colors(self, colors: list):
+        color = colors[0]
+        color_alpha = color[3]
+        if color_alpha == 1:
+            return color
+        for tmp_color in colors[1:]:
+            color = hsl_mix_rgba_colors(color, tmp_color)
+            color_alpha = tmp_color[3]
+            if color_alpha == 1:
+                break
+        return color
+
+    def merge_caracters(self, caracters_to_merge: list):
+        max_count = 0
+        caracter_final = caracters_to_merge[0]
+        for caracter in caracters_to_merge:
+            count = count_drawn_pixels(caracter)
+            if count > max_count:
+                max_count = count
+                caracter_final = caracter
+        return caracter_final
+
     def draw(self):
         for y in range(self.height):
             for x in range(self.width):
@@ -52,16 +74,25 @@ class ConsoleMap3d(object):
                 position = self.space[x][y]
                 if last_position.any() == position.any():
                     continue
+                # set default values
                 caracter = ''
                 color = COLOR_WHITE
-                for z in range(self.depth):
+                # obtener array colores y caracteres a mezclar
+                colors_to_merge = []
+                caracters_to_merge = []
+                for z in range(self.depth - 1, -1, -1):
                     item = position[z]
                     if item != 0:
-                        caracter, color = item
-                        count_drawn_pixels(caracter)
-                        hsl_mix_rgba_colors(color, COLOR_WHITE)
-                if caracter == '':
+                        tmp_caracter, tmp_color = item
+                        colors_to_merge.append(tmp_color)
+                        if tmp_caracter != '':
+                            caracters_to_merge.append(tmp_caracter)
+                # mezclar colores y caracteres
+                if len(caracters_to_merge) == 0:
                     continue
+                color = self.merge_colors(colors_to_merge)
+                caracter = self.merge_caracters(caracters_to_merge)
+                # iniciar dibujo
                 echo(self.terminal.move_xy(x, y))
                 echo(rgb_color(self.terminal, color, caracter))
         self.last_space = self.space.copy()
