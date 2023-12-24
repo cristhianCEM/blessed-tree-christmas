@@ -1,28 +1,9 @@
 import blessed
-import random
-import math
-import time
-
-from utils import echo, get_text_formatted
+from utils import echo
 from drawers.starsky import draw_starsky
 from drawers.moon import draw_full_moon
 from drawers.tree import draw_base_star, draw_base_tree, draw_fairy_lights
-
-MESSAGE = 'Feliz Navidad!'
-MESSAGE_FONT = 'contessa'
-MESSAGE_HEIGHT = 3
-MESSAGE_QUIT = 'Press Q to quit.'
-LEN_MESSAGE_QUIT = len(MESSAGE_QUIT)
-
-
-def draw_message_quit(terminal):
-    echo(terminal.move_yx(terminal.height, terminal.width - LEN_MESSAGE_QUIT))
-    echo(terminal.bright_black(MESSAGE_QUIT))
-
-
-def draw_message(terminal):
-    echo(terminal.move_yx(terminal.height - MESSAGE_HEIGHT, 0))
-    echo(terminal.red(get_text_formatted(MESSAGE, font=MESSAGE_FONT)))
+from drawers.UI import draw_message, draw_message_quit
 
 
 def setup(terminal):
