@@ -38,6 +38,10 @@ class ConsoleMap3d(object):
         except IndexError:
             pass
 
+    def set_message(self, x: int, y: int, z: int, message: str, color: tuple):
+        for i, caracter in enumerate(message):
+            self.set_point(x + i, y, z, caracter, color)
+
     def del_point(self, x: int, y: int, z: int):
         try:
             self.space[x][y][z] = 0
