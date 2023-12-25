@@ -21,16 +21,13 @@ if sys.version_info[0] < 3:
 else:
     echo = echo_python3
 
-# def rgb_color(terminal, r, g, b, text):
-#     return f"\x1b[38;2;{r};{g};{b}m{text}{terminal.normal}"
-
 
 def rgb_color(terminal, color: list, text: str):
     """
     Devuelve el texto formateado con el color indicado.
     """
-    r, g, b, a = color
-    return f"\x1b[38;2;{r};{g};{b};{a}m{text}{terminal.normal}"
+    r, g, b, _ = color
+    return f"\x1b[38;2;{r};{g};{b}m{text}{terminal.normal}"
 
 
 def get_text_formatted(text: str, font: str):
