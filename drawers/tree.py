@@ -1,7 +1,7 @@
 import random
 import math
 
-TREE_DEPTH = 1
+TREE_DEPTH = 2
 STAR = [
     "###,",
     "__/^\__",
