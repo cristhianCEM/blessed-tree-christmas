@@ -11,13 +11,16 @@ class ConsoleMap3d(object):
     width, height, depth = None, None, None
     space = None
     last_space = None
+    setup: callable = None
 
-    def __init__(self, terminal, depth: int = 0):
+    def __init__(self, terminal, setup: callable = None, depth: int = 0):
         self.terminal = terminal
         self.depth = depth
-        echo(terminal.on_black(terminal.clear()))
-        echo(terminal.move_xy(0, 0))
+        self.setup = setup
         self.check_resize()
+
+    def terminal_clear(self):
+        echo(self.terminal.on_black(self.terminal.clear()))
 
     def resize_to(self, width: int, height: int, depth: int = 0):
         self.width = width
@@ -25,7 +28,9 @@ class ConsoleMap3d(object):
         self.depth = depth
         shape = (width, height, depth)
         self.space = np.zeros(shape, dtype=object)
-        self.last_space = self.space.copy()
+        self.before_space = self.space.copy()
+        self.terminal_clear()
+        self.setup(self)
 
     def check_resize(self):
         new_width, new_height = self.terminal.width, self.terminal.height
@@ -74,7 +79,7 @@ class ConsoleMap3d(object):
         for y in range(self.height):
             for x in range(self.width):
                 # revisar si cambio algo
-                last_position = self.last_space[x][y]
+                last_position = self.before_space[x][y]
                 position = self.space[x][y]
                 if last_position.any() == position.any():
                     continue
@@ -99,4 +104,4 @@ class ConsoleMap3d(object):
                 # iniciar dibujo
                 echo(self.terminal.move_xy(x, y))
                 echo(rgb_color(self.terminal, color, caracter))
-        self.last_space = self.space.copy()
+        self.before_space = self.space.copy()
