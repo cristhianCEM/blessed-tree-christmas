@@ -22,8 +22,3 @@ def draw_message(scene):
     msg_y = scene.height - len(split_text)
     for i, line in enumerate(split_text):
         scene.set_message(0, msg_y + i, SCENE_Z, line, MESSAGE_COLOR)
-
-
-def draw_ui(scene):
-    draw_message(scene)
-    draw_message_quit(scene)
