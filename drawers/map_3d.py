@@ -3,8 +3,8 @@ from utils.console import echo, rgb_color
 from utils.image import count_drawn_pixels
 from utils.colors import hsl_mix_rgba_colors
 
-COLOR_WHITE = (255, 255, 255, 0)
-
+COLOR_WHITE = (255, 255, 255, 1)
+COLOR_BLACK = (0, 0, 0, 1)
 
 class ConsoleMap3d(object):
     terminal = None
