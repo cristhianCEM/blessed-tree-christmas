@@ -1,18 +1,29 @@
-from utils.console import echo, get_text_formatted, rgb_color
+from utils.console import get_text_formatted
 
+SCENE_DEPTH = 5
+SCENE_Z = SCENE_DEPTH - 1
 MESSAGE = 'Feliz Navidad!'
 MESSAGE_FONT = 'contessa'
-MESSAGE_HEIGHT = 3
-MESSAGE_QUIT = 'Press Q to quit.'
-LEN_MESSAGE_QUIT = len(MESSAGE_QUIT)
-occupied_positions = []
+MESSAGE_COLOR = (255, 0, 0, 1)
 
-def draw_message_quit(terminal):
-    echo(terminal.move_yx(terminal.height, terminal.width - LEN_MESSAGE_QUIT))
-    # echo(terminal.bright_black(MESSAGE_QUIT))
-    echo(rgb_color(terminal, 80, 25, 80, MESSAGE_QUIT))
+QUIT_MESSAGE = 'Press Q to quit.'
+QUIT_MESSAGE_COLOR = (255, 128, 0, 1)
 
 
-def draw_message(terminal):
-    echo(terminal.move_yx(terminal.height - MESSAGE_HEIGHT, 0))
-    echo(terminal.red(get_text_formatted(MESSAGE, font=MESSAGE_FONT)))
+def draw_message_quit(scene):
+    msg_x = scene.width - len(QUIT_MESSAGE)
+    msg_y = scene.height - 1
+    scene.set_message(msg_x, msg_y, SCENE_Z, QUIT_MESSAGE, QUIT_MESSAGE_COLOR)
+
+
+def draw_message(scene):
+    text = get_text_formatted(MESSAGE, font=MESSAGE_FONT)
+    split_text = text.split('\n')
+    msg_y = scene.height - len(split_text)
+    for i, line in enumerate(split_text):
+        scene.set_message(0, msg_y + i, SCENE_Z, line, MESSAGE_COLOR)
+
+
+def draw_ui(scene):
+    draw_message(scene)
+    draw_message_quit(scene)
