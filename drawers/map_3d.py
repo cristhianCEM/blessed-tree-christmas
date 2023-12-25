@@ -100,7 +100,7 @@ class ConsoleMap3d(object):
                 if len(caracters_to_merge) == 0:
                     continue
                 color = self.merge_colors(colors_to_merge)
-                caracter = self.merge_caracters(caracters_to_merge)
+                caracter = caracters_to_merge[0] # self.merge_caracters(caracters_to_merge)
                 # iniciar dibujo
                 echo(self.terminal.move_xy(x, y))
                 echo(rgb_color(self.terminal, color, caracter))
