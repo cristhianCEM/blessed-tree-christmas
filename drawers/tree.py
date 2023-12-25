@@ -1,17 +1,18 @@
-
-from utils.console import echo
 import random
 import math
 
-arr_star = [
+TREE_DEPTH = 1
+STAR = [
     "###,",
     "__/^\__",
     "\ .★. /",
     "/_< >_\\",
     "##(~)"
 ]
+STAR_COLOR = (255, 255, 0, 0.5)
 
 decorate = ".:*~*:._"
+TRUNK_COLOR = (255, 160, 122, 1)
 MAP_TREE = ['*', '&', '¿', '★', 'O']
 MAP_TRUNK = ['M', 'm', 'N', 'n', '@']
 MAP_COLOR = ['aliceblue', 'antiquewhite', 'antiquewhite1', 'antiquewhite2', 'antiquewhite3', 'antiquewhite4', 'aqua', 'aquamarine', 'aquamarine2', 'aquamarine3', 'aquamarine4', 'beige', 'bisque', 'bisque2', 'bisque3', 'bisque4', 'black', 'blanchedalmond', 'blue', 'blue2', 'blue3', 'blue4', 'blueviolet', 'brown', 'brown1', 'brown2', 'brown3', 'brown4', 'burlywood', 'burlywood1', 'burlywood2', 'burlywood3', 'burlywood4', 'cadetblue', 'cadetblue1', 'cadetblue2', 'cadetblue3', 'cadetblue4', 'chartreuse', 'chartreuse2', 'chartreuse3', 'chartreuse4', 'chocolate', 'chocolate1', 'chocolate2', 'chocolate3', 'chocolate4', 'coral', 'coral1', 'coral2', 'coral3', 'coral4', 'cornflowerblue', 'crimson', 'cyan2', 'cyan3', 'cyan4', 'darkgoldenrod', 'darkgoldenrod1', 'darkgoldenrod2', 'darkgoldenrod3', 'darkgoldenrod4', 'darkgreen', 'darkkhaki', 'darkmagenta', 'darkolivegreen', 'darkolivegreen1', 'darkolivegreen2', 'darkolivegreen3', 'darkolivegreen4', 'darkorange', 'darkorange1', 'darkorange2', 'darkorange3', 'darkorange4', 'darkorchid', 'darkorchid1', 'darkorchid2', 'darkorchid3', 'darkorchid4', 'darkred', 'darksalmon', 'darkseagreen', 'darkseagreen1', 'darkseagreen2', 'darkseagreen3', 'darkseagreen4', 'darkslateblue', 'darkturquoise', 'darkviolet', 'deeppink', 'deeppink2', 'deeppink3', 'deeppink4', 'deepskyblue', 'deepskyblue2', 'deepskyblue3', 'deepskyblue4', 'dodgerblue', 'dodgerblue2', 'dodgerblue3', 'dodgerblue4', 'firebrick', 'firebrick1', 'firebrick2', 'firebrick3', 'firebrick4', 'floralwhite', 'forestgreen', 'fuchsia', 'gainsboro', 'ghostwhite', 'gold', 'gold2', 'gold3', 'gold4', 'goldenrod', 'goldenrod1', 'goldenrod2', 'goldenrod3', 'goldenrod4', 'green', 'green2', 'green3', 'green4', 'greenyellow', 'honeydew', 'honeydew2', 'honeydew3', 'honeydew4', 'hotpink', 'hotpink1', 'hotpink2', 'hotpink3', 'hotpink4', 'indianred', 'indianred1', 'indianred2', 'indianred3', 'indianred4', 'indigo', 'ivory', 'ivory2', 'ivory3', 'ivory4', 'khaki', 'khaki1', 'khaki2', 'khaki3', 'khaki4', 'lavender', 'lavenderblush', 'lavenderblush2', 'lavenderblush3', 'lavenderblush4', 'lawngreen', 'lemonchiffon', 'lemonchiffon2', 'lemonchiffon3', 'lemonchiffon4', 'lightblue', 'lightblue1', 'lightblue2', 'lightblue3', 'lightblue4', 'lightcoral', 'lightcyan', 'lightcyan2', 'lightcyan3', 'lightcyan4', 'lightgoldenrod', 'lightgoldenrod1', 'lightgoldenrod2', 'lightgoldenrod3', 'lightgoldenrod4', 'lightgoldenrodyellow', 'lightgreen', 'lightpink', 'lightpink1', 'lightpink2', 'lightpink3', 'lightpink4', 'lightsalmon', 'lightsalmon2',
@@ -19,55 +20,55 @@ MAP_COLOR = ['aliceblue', 'antiquewhite', 'antiquewhite1', 'antiquewhite2', 'ant
 
 star_x = 0
 star_y = 0
-
-
-def draw_base_star(terminal, reset: bool = False):
-    global star_x, star_y
-    if (reset):
-        star_x = math.floor(terminal.width / 2)
-        star_y = 1
-    for i in range(len(arr_star)):
-        string = arr_star[i]
-        cantidad = string.count('#')
-        string = string.replace('#', '')
-        echo(terminal.move_xy(star_x - 3 + cantidad, star_y + i))
-        echo(terminal.on_black(terminal.yellow(string)))
-
-
-def draw_tree_trunk(terminal, x, y, height):
-    base = round(height / 5)
-    for i in range(base):
-        string = ''.join([random.choice(MAP_TRUNK) for _ in range(5)])
-        echo(terminal.move_xy(x - 2, y + 5 + height + i))
-        echo(terminal.on_black(terminal.lightsalmon4(string)))
-
-
 tree_positions = []
 
 
-def draw_base_tree(terminal, reset: bool = False):
+def draw_base_star(scene, reset: bool = False):
+    global star_x, star_y
+    if (reset):
+        star_x = math.floor(scene.width / 2)
+        star_y = 1
+    for i in range(len(STAR)):
+        string = STAR[i]
+        cantidad = string.count('#')
+        string = string.replace('#', '')
+        tmp_x = star_x - 3 + cantidad
+        tmp_y = star_y + i
+        scene.set_message(tmp_x, tmp_y, TREE_DEPTH, string, STAR_COLOR)
+
+
+def draw_tree_trunk(scene, x, y, height):
+    base = round(height / 5)
+    for i in range(base):
+        string = ''.join([random.choice(MAP_TRUNK) for _ in range(5)])
+        tmp_x = x - 2
+        tmp_y = y + 5 + height + i
+        scene.set_message(tmp_x, tmp_y, TREE_DEPTH, string, TRUNK_COLOR)
+
+
+def draw_base_tree(scene, reset: bool = False):
     global tree_positions
     if (reset):
         tree_positions = []
-    tree_x = math.floor(terminal.width / 2)
+    tree_x = math.floor(scene.width / 2)
     tree_y = 0
-    tree_height = terminal.height - 10
+    tree_height = scene.height - 10
     for i in range(1, tree_height):
         efecto = random.choice([0, 2])
         pos_x = tree_x - i - round(efecto / 2)
         pos_y = tree_y + 5 + i
-        echo(terminal.move_xy(pos_x, pos_y))
         string = ''
         cantidad = (i * 2 + 1)
         cantidad += efecto
         for j in range(cantidad):
             string += random.choice(MAP_TREE)
-        echo(terminal.on_black(terminal.forestgreen(string)))
+        # echo(terminal.on_black(terminal.forestgreen(string)))
+        scene.set_message(pos_x, pos_y, TREE_DEPTH, string, (34, 139, 34, 0.5))
         tree_positions.append([pos_x, pos_y, string])
-    draw_tree_trunk(terminal, tree_x, tree_y, tree_height)
+    draw_tree_trunk(scene, tree_x, tree_y, tree_height)
 
 
-def draw_fairy_lights(terminal):
+def draw_fairy_lights(scene):
     global tree_positions
     for i in range(len(tree_positions)):
         pos_x = tree_positions[i][0]
@@ -77,8 +78,12 @@ def draw_fairy_lights(terminal):
         for str in string:
             if str == 'O':
                 color_random = random.choice(MAP_COLOR)
-                new_string += getattr(terminal, color_random)('O')
+                new_string += getattr(scene.terminal, color_random)('O')
             else:
-                new_string += terminal.forestgreen(str)
-        echo(terminal.move_xy(pos_x, pos_y))
-        echo(terminal.on_black(new_string))
+                # forestgreen
+                color_random = (34, 139, 34, 0.5)
+                new_string += str
+        # echo(terminal.move_xy(pos_x, pos_y))
+        # echo(terminal.on_black(new_string))
+        scene.set_message(pos_x, pos_y, TREE_DEPTH,
+                          new_string, (34, 139, 34, 0.5))
