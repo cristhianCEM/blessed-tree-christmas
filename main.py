@@ -3,7 +3,7 @@ from drawers.map_3d import ConsoleMap3d
 from drawers.starsky import draw_starsky
 from drawers.moon import draw_full_moon
 from drawers.tree import draw_base_star, draw_base_tree, draw_fairy_lights
-from drawers.UI import SCENE_DEPTH, draw_message, draw_message_quit
+from drawers.UI import SCENE_DEPTH, draw_ui
 
 
 def setup(scene):
@@ -11,8 +11,7 @@ def setup(scene):
     draw_full_moon(scene, True)
     draw_base_star(scene, True)
     draw_base_tree(scene, True)
-    draw_message(scene)
-    draw_message_quit(scene)
+    draw_ui(scene)
 
 
 def update(scene):
