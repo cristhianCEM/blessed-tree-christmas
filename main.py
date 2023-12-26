@@ -1,7 +1,7 @@
 import blessed
 from drawers.map_3d import ConsoleMap3d
 from drawers.starsky import draw_starsky
-from drawers.moon import draw_full_moon
+from drawers.moon import draw_full_moon, draw_santa
 from drawers.tree import draw_base_star, draw_base_tree, draw_fairy_lights
 from drawers.UI import SCENE_DEPTH, draw_ui
 
@@ -9,6 +9,7 @@ from drawers.UI import SCENE_DEPTH, draw_ui
 def setup(scene):
     draw_starsky(scene, True)
     draw_full_moon(scene, True)
+    draw_santa(scene, True)
     draw_base_star(scene, True)
     draw_base_tree(scene, True)
     draw_ui(scene)
