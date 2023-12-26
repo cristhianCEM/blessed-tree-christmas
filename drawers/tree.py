@@ -2,7 +2,7 @@ import random
 import math
 from utils.colors import random_color
 
-TREE_DEPTH = 2
+TREE_DEPTH = 3
 STAR = [
     "###,",
     "__/^\__",
