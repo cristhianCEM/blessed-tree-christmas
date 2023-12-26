@@ -8,10 +8,11 @@ MESSAGE_FONT = 'contessa'
 MESSAGE_COLOR = (255, 0, 0, 1)
 
 QUIT_MESSAGE = 'Press Q to quit.'
-QUIT_MESSAGE_COLOR = (255, 128, 0, 1)
+QUIT_MESSAGE_COLOR = (167, 117, 255, 1)
 
 DECORACTION = ".:*~*:._"
 DECORACTION_COLOR = (255, 255, 255, 1)
+
 
 def draw_message_quit(scene):
     msg_x = scene.width - len(QUIT_MESSAGE)
@@ -35,6 +36,5 @@ def draw_decorations(scene):
 
 
 def draw_ui(scene):
-    draw_decorations(scene)
     draw_message(scene)
     draw_message_quit(scene)
