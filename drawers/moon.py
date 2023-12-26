@@ -47,7 +47,7 @@ SANTA = [
     '_/=#===#=(_,   /;"/> `/;">> `/;">>',
 ]
 SANTA_DEPTH = 3
-SANTA_COLOR = (255, 101, 80, 1)
+SANTA_COLOR = (248, 213, 0, 1)
 santa_x = 0
 santa_y = 0
 santa_timming = 10
@@ -56,8 +56,8 @@ santa_timming = 10
 def draw_santa(scene, reset: bool = False):
     global santa_x, santa_y
     if (reset):
-        santa_x = math.floor(scene.width * 0.30)
-        santa_y = math.floor(scene.height * 0.12)
+        santa_x = math.floor(scene.width * 0.55)
+        santa_y = math.floor(scene.height * 0.15)
     for i in range(len(SANTA)):
         string = SANTA[i]
         for j in range(len(string)):
