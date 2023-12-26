@@ -12,7 +12,7 @@ STAR = [
 ]
 STAR_COLOR = (255, 255, 0, 1)
 TRUNK_COLOR = (255, 160, 122, 1)
-TREE_COLOR = (34, 139, 34, 0.5)
+TREE_COLOR = (34, 139, 34, 1)
 MAP_TREE = ['*', '&', '¿', '★', 'O']
 MAP_TRUNK = ['M', 'm', 'N', 'n', '@']
 star_x = 0
