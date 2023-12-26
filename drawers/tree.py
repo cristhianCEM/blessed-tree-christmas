@@ -1,5 +1,6 @@
 import random
 import math
+from utils.colors import random_color
 
 TREE_DEPTH = 2
 STAR = [
@@ -17,7 +18,6 @@ MAP_TRUNK = ['M', 'm', 'N', 'n', '@']
 star_x = 0
 star_y = 0
 tree_positions = []
-decorate = ".:*~*:._"
 
 
 def draw_base_star(scene, reset: bool = False):
@@ -62,10 +62,6 @@ def draw_base_tree(scene, reset: bool = False):
         scene.set_message(pos_x, pos_y, TREE_DEPTH, string, TREE_COLOR)
         tree_positions.append([pos_x, pos_y, string])
     draw_tree_trunk(scene, tree_x, tree_y, tree_height)
-
-
-def random_color(alpha: float = 1):
-    return (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255), alpha)
 
 
 def draw_fairy_lights(scene):

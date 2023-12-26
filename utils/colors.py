@@ -1,4 +1,5 @@
 import colorsys
+import random
 from typing import List
 from math import ceil
 
@@ -97,3 +98,7 @@ def hsl_mix_rgba_colors(color1: List[int], color2: List[int]) -> List[int]:
     if abs(hsl1[0] - hsl2[0]) > 180:
         mixed_hsl[0] = (mixed_hsl[0] + 180) % 360
     return hsl_to_rgba(*mixed_hsl)
+
+
+def random_color(alpha: float = 1):
+    return (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255), alpha)
