@@ -1,5 +1,6 @@
 import math
 from utils.colors import random_color
+import random
 
 MOON = [
     "#########___---___",
@@ -46,21 +47,42 @@ SANTA = [
     ' \ *__\(~)\,---,__/>_ ,__/>_ ,__/>-`//">>',
     '_/=#===#=(_,   /;"/> `/;">> `/;">>',
 ]
-SANTA_DEPTH = 3
+SANTA_TIMMING = 3
+SANTA_WIDTH = len(SANTA[0])
+SANTA_DEPTH = 2
 SANTA_COLOR = (248, 213, 0, 1)
 santa_x = 0
 santa_y = 0
-santa_timming = 10
+santa_count = 0
 
 
 def draw_santa(scene, reset: bool = False):
-    global santa_x, santa_y
+    global santa_x, santa_y, santa_count
     if (reset):
         santa_x = math.floor(scene.width * 0.55)
         santa_y = math.floor(scene.height * 0.15)
-    for i in range(len(SANTA)):
-        string = SANTA[i]
-        for j in range(len(string)):
-            if string[j] != ' ':
-                scene.set_point(santa_x + j, santa_y + i,
-                                SANTA_DEPTH, string[j], SANTA_COLOR)
+    else:
+        if (santa_count == SANTA_TIMMING):
+            santa_count = 0
+            maximo = scene.width + 5
+            if (santa_x > maximo):
+                santa_x = -SANTA_WIDTH
+            else:
+                santa_x += 1
+        else:
+            santa_count += 1
+    for y in range(len(SANTA)):
+        string = SANTA[y]
+        for x in range(len(string)):
+            caracter = string[x]
+            tmp_x = santa_x + x
+            tmp_y = santa_y + y
+            if (tmp_x < 0):
+                continue
+            if (caracter != ' '):
+                scene.set_point(tmp_x, tmp_y, SANTA_DEPTH,
+                                string[x], SANTA_COLOR)
+            else:
+                scene.del_point(tmp_x, tmp_y, SANTA_DEPTH)
+        if (santa_x > 0):
+            scene.del_point(santa_x - 1, santa_y + y, SANTA_DEPTH)
