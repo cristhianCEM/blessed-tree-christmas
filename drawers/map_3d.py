@@ -53,6 +53,7 @@ class ConsoleMap3d(object):
     def del_point(self, x: int, y: int, z: int):
         try:
             self.space[x][y][z] = 0
+            self.changes[x][y] = True
         except IndexError:
             pass
 
@@ -83,11 +84,8 @@ class ConsoleMap3d(object):
             for x in range(self.width):
                 if not self.changes[x][y]:
                     continue
-                # set default values
-                position = self.space[x][y]
-                caracter = ''
-                color = COLOR_WHITE
                 # obtener array colores y caracteres a mezclar
+                position = self.space[x][y]
                 colors_to_merge = []
                 caracters_to_merge = []
                 for z in range(self.depth - 1, -1, -1):
@@ -99,10 +97,13 @@ class ConsoleMap3d(object):
                             caracters_to_merge.append(tmp_caracter)
                 # mezclar colores y caracteres
                 if len(caracters_to_merge) == 0:
-                    continue
-                color = self.merge_colors(colors_to_merge)
-                # self.merge_caracters(caracters_to_merge)
-                caracter = caracters_to_merge[0]
+                    caracter = ' '
+                else:
+                    caracter = caracters_to_merge[0] #self.merge_caracters(caracters_to_merge)
+                if len(colors_to_merge) == 0:
+                    color = COLOR_WHITE
+                else:
+                    color = self.merge_colors(colors_to_merge)
                 # iniciar dibujo
                 echo(self.terminal.move_xy(x, y))
                 echo(rgb_color(self.terminal, color, caracter))
