@@ -17,6 +17,7 @@ def setup(scene):
 
 def update(scene):
     draw_starsky(scene, False)
+    draw_santa(scene, False)
     draw_fairy_lights(scene)
 
 
