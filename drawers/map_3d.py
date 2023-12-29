@@ -6,11 +6,12 @@ from utils.colors import hsl_mix_rgba_colors
 COLOR_WHITE = (255, 255, 255, 1)
 COLOR_BLACK = (0, 0, 0, 1)
 
+
 class ConsoleMap3d(object):
     terminal = None
     width, height, depth = None, None, None
     space = None
-    last_space = None
+    changes = None
     setup: callable = None
 
     def __init__(self, terminal, setup: callable = None, depth: int = 0):
@@ -28,7 +29,8 @@ class ConsoleMap3d(object):
         self.depth = depth
         shape = (width, height, depth)
         self.space = np.zeros(shape, dtype=object)
-        self.before_space = self.space.copy()
+        shape = (width, height)
+        self.changes = np.zeros(shape, dtype=object)
         self.terminal_clear()
         self.setup(self)
 
@@ -40,6 +42,7 @@ class ConsoleMap3d(object):
     def set_point(self, x: int, y: int, z: int, caracter: str, color: tuple):
         try:
             self.space[x][y][z] = (caracter, color)
+            self.changes[x][y] = True
         except IndexError:
             pass
 
@@ -78,12 +81,10 @@ class ConsoleMap3d(object):
     def draw(self):
         for y in range(self.height):
             for x in range(self.width):
-                # revisar si cambio algo
-                last_position = self.before_space[x][y]
-                position = self.space[x][y]
-                if last_position.any() == position.any():
+                if not self.changes[x][y]:
                     continue
                 # set default values
+                position = self.space[x][y]
                 caracter = ''
                 color = COLOR_WHITE
                 # obtener array colores y caracteres a mezclar
@@ -100,8 +101,9 @@ class ConsoleMap3d(object):
                 if len(caracters_to_merge) == 0:
                     continue
                 color = self.merge_colors(colors_to_merge)
-                caracter = caracters_to_merge[0] # self.merge_caracters(caracters_to_merge)
+                # self.merge_caracters(caracters_to_merge)
+                caracter = caracters_to_merge[0]
                 # iniciar dibujo
                 echo(self.terminal.move_xy(x, y))
                 echo(rgb_color(self.terminal, color, caracter))
-        self.before_space = self.space.copy()
+                self.changes[x][y] = False
